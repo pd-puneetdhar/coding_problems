@@ -267,13 +267,83 @@ void merge_two_sorted_arrays( ) {
     algo_merge_two_sorted_arrays( *first_arr , *sec_arr , final_arr );
 }
 
-//merge sort
-void merge_sort( std::unique_ptr<int_list> p_ints ) {
-    int_list& ints = *p_ints;
+using t_int_arr = std::vector<unsigned int>;
+using int_arr = std::unique_ptr<t_int_arr>;
 
-    auto begin = 0;
-    auto end = ints.size( );
-    auto mid = begin + end / 2;
+int_arr algo_merge_two_sorted_vec( int_arr first_arr , int_arr sec_arr , int_arr final_arr ) {
+    auto first_arr_itr = first_arr->begin( );
+    auto sec_arr_itr = sec_arr->begin( );
+    final_arr->resize( first_arr->size( ) + sec_arr->size( ) );
+    //std::cout << "merging first = " << *first_arr_itr << " second = " << *sec_arr_itr << std::endl;
+
+    for ( auto& final_arr_itr : *final_arr ) {
+        if ( first_arr_itr == first_arr->end( ) ) {
+            final_arr_itr = *sec_arr_itr;
+            sec_arr_itr++;
+        } else if ( sec_arr_itr == sec_arr->end( ) ) {
+            final_arr_itr = *first_arr_itr;
+            first_arr_itr++;
+        } else if ( ( *first_arr_itr ) > ( *sec_arr_itr ) ) {
+            final_arr_itr = *sec_arr_itr;
+            sec_arr_itr++;
+        } else {
+            final_arr_itr = *first_arr_itr;
+            first_arr_itr++;
+        }
+    }
+
+    //std::cout << "merged to list " << std::endl;
+
+    /*for ( auto int_i : *final_arr ) {
+        std::cout << int_i << ", ";
+    }
+    std::cout << std::endl;*/
+    return final_arr;
+}
+
+//merge sort
+int_arr merge_sort( int_arr p_ints ) {
+    if ( p_ints->size( ) <= 1 )
+        return p_ints;
+
+    auto begin = p_ints->begin( );
+    auto end = p_ints->end( );
+
+    auto mid = ( begin + ( p_ints->size( ) ) / 2 );
+
+    int_arr first_arr = std::make_unique<t_int_arr>( begin , mid );
+    int_arr sec_arr = std::make_unique<t_int_arr>( mid , end );
+
+    //std::cout << "Breaking into first list";
+    //for ( auto i : *first_arr ) {
+    //    std::cout << i << ", ";
+    //}
+    //std::cout << std::endl;
+
+    //std::cout << "Breaking into second list";
+    //for ( auto i : *sec_arr ) {
+    //    std::cout << i << ", ";
+    //}
+    // std::cout << std::endl;
+
+    first_arr = merge_sort( std::move( first_arr ) );
+    sec_arr = merge_sort( std::move( sec_arr ) );
+
+    int_arr final_vec = std::make_unique<t_int_arr>( );
+    final_vec = algo_merge_two_sorted_vec( std::move( first_arr ) , std::move( sec_arr ) , std::move( final_vec ) );
+    return final_vec;
+}
+
+void merge_sort_test( ) {
+    int_arr merge_sort_this = std::make_unique<t_int_arr>( );
+    *merge_sort_this = { 10 , 30 , 3 , 53 , 24 , 46 , 27 , 44 , 13 , 22 };
+    merge_sort_this = merge_sort( std::move( merge_sort_this ) );
+
+    std::cout << "MERGE_SORT" << std::endl;
+    for ( auto i : *merge_sort_this ) {
+        std::cout << i << ", ";
+    }
+    std::cout << std::endl;
 }
 
 int main( ) {
@@ -284,4 +354,5 @@ int main( ) {
     insertion_sort_perf_opt( int_randomizer( ) );
 
     merge_two_sorted_arrays( );
+    merge_sort_test( );
 }
