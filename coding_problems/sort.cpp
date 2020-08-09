@@ -155,6 +155,37 @@ void insertion_sort( std::unique_ptr<int_list> p_ints ) {
     std::cout << __FUNCTION__ << ":: Unsorted list " << std::endl;
     print_list( ints );
 
+    auto sorted_head = 0u;
+    auto sorted_end = 0u;
+    auto compare = sorted_end + 1u;
+
+    auto sorted_array_iterations = ints.size( ) - 1;
+
+    for ( sorted_end = 0; sorted_end < sorted_array_iterations; sorted_end++ ) {
+        compare = sorted_end + 1u;
+        for ( auto sorted_item_of_interest = sorted_end; sorted_item_of_interest >= sorted_head; sorted_item_of_interest-- ) {
+            if ( greater( ints[sorted_item_of_interest] , ints[compare] ) ) {
+                swap( ints[compare] , ints[sorted_item_of_interest] );
+                compare = sorted_item_of_interest;
+            } else {
+                break;
+            }
+
+            if ( sorted_item_of_interest == 0 ) {
+                break;
+            }
+        }
+    }
+
+    std::cout << __FUNCTION__ << ":: Sorted list " << std::endl;
+    print_list( ints );
+}
+
+void insertion_sort_perf_opt( std::unique_ptr<int_list> p_ints ) {
+    int_list& ints = *p_ints.get( );
+    std::cout << __FUNCTION__ << ":: Unsorted list " << std::endl;
+    print_list( ints );
+
     //start with a sub-sorted list head and compare head + 1 with it.
     //increase the sub-sorted list to head+(0...n-1) and while comparing the nth element with
     //each element in the sorted sub array to find the place where it can be inserted
@@ -169,7 +200,7 @@ void insertion_sort( std::unique_ptr<int_list> p_ints ) {
         compare = sorted_end + 1u;
         for ( auto sorted_item_of_interest = sorted_end; sorted_item_of_interest >= sorted_head; sorted_item_of_interest-- ) {
             if ( greater( ints[sorted_item_of_interest] , ints[compare] ) ) {
-                insert_into_sorted_array( ints , compare , sorted_item_of_interest );
+                swap( ints[compare] , ints[sorted_item_of_interest] );
                 compare = sorted_item_of_interest;
             } else {
                 break;
