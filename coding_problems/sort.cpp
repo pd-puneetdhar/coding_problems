@@ -7,7 +7,8 @@
 #include <functional>
 #include <memory>
 
-using int_list = std::array<unsigned int , 30>;
+const unsigned int list_length = 10;
+using int_list = std::array<unsigned int , list_length>;
 using dist_range = std::pair<unsigned int , unsigned int>;
 dist_range def_range = { 0, 99 };
 
@@ -49,7 +50,7 @@ void swap( unsigned int& first , unsigned int& second ) {
     std::swap( first , second );
 }
 
-void bubble_sort( std::unique_ptr<int_list> p_ints ) {
+std::unique_ptr<int_list> bubble_sort( std::unique_ptr<int_list> p_ints ) {
     int_list& ints = *p_ints.get( );
 
     std::cout << __FUNCTION__ << ":: Unsorted list " << std::endl;
@@ -75,6 +76,7 @@ void bubble_sort( std::unique_ptr<int_list> p_ints ) {
 
     std::cout << __FUNCTION__ << ":: Sorted list " << std::endl;
     print_list( ints );
+    return p_ints;
 }
 
 void selection_sort( std::unique_ptr<int_list> p_ints ) {
@@ -226,10 +228,60 @@ void insertion_sort_perf_opt( std::unique_ptr<int_list> p_ints ) {
     print_list( ints );
 }
 
+void algo_merge_two_sorted_arrays( int_list& first_arr , int_list& sec_arr , std::array<unsigned int , 20>& final_arr ) {
+    auto first_arr_itr = first_arr.begin( );
+    auto sec_arr_itr = sec_arr.begin( );
+
+    for ( auto& final_arr_itr : final_arr ) {
+        if ( first_arr_itr == first_arr.end( ) ) {
+            final_arr_itr = *sec_arr_itr;
+            sec_arr_itr++;
+        } else if ( sec_arr_itr == sec_arr.end( ) ) {
+            final_arr_itr = *first_arr_itr;
+            first_arr_itr++;
+        } else if ( ( *first_arr_itr ) > ( *sec_arr_itr ) ) {
+            final_arr_itr = *sec_arr_itr;
+            sec_arr_itr++;
+        } else {
+            final_arr_itr = *first_arr_itr;
+            first_arr_itr++;
+        }
+    }
+
+    for ( auto int_i : final_arr ) {
+        std::cout << int_i << ", ";
+    }
+    std::cout << std::endl;
+}
+
+//merge 2 sorted arrays
+void merge_two_sorted_arrays( ) {
+    std::cout << __FUNCTION__ << std::endl;
+    auto first_arr = int_randomizer( );
+    first_arr = bubble_sort( std::move( first_arr ) );
+    auto sec_arr = int_randomizer( );
+    sec_arr = bubble_sort( std::move( sec_arr ) );
+
+    std::array<unsigned int , 20> final_arr { 0 };
+
+    algo_merge_two_sorted_arrays( *first_arr , *sec_arr , final_arr );
+}
+
+//merge sort
+void merge_sort( std::unique_ptr<int_list> p_ints ) {
+    int_list& ints = *p_ints;
+
+    auto begin = 0;
+    auto end = ints.size( );
+    auto mid = begin + end / 2;
+}
+
 int main( ) {
     bubble_sort( int_randomizer( ) );
     selection_sort( int_randomizer( ) );
     selection_sort_perf_opt( int_randomizer( ) );
     insertion_sort( int_randomizer( ) );
     insertion_sort_perf_opt( int_randomizer( ) );
+
+    merge_two_sorted_arrays( );
 }
