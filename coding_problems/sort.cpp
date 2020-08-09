@@ -135,6 +135,16 @@ void selection_sort_perf_opt( std::unique_ptr<int_list> p_ints ) {
     print_list( ints );
 }
 
+unsigned int spot_insert_location( int_list& ints , unsigned int value , unsigned int end ) {
+    unsigned int pos = 0;
+    while ( pos < end ) {
+        if ( ints[pos] > value ) {
+            return pos;
+        }
+        pos++;
+    }
+}
+
 void insert_into_sorted_array( int_list& ints , unsigned int insert_this , unsigned int insert_at ) {
     assert( insert_this > insert_at );
 
@@ -165,8 +175,8 @@ void insertion_sort( std::unique_ptr<int_list> p_ints ) {
         compare = sorted_end + 1u;
         for ( auto sorted_item_of_interest = sorted_end; sorted_item_of_interest >= sorted_head; sorted_item_of_interest-- ) {
             if ( greater( ints[sorted_item_of_interest] , ints[compare] ) ) {
-                swap( ints[compare] , ints[sorted_item_of_interest] );
-                compare = sorted_item_of_interest;
+                auto insert_at = spot_insert_location( ints , ints[compare] , sorted_end );
+                insert_into_sorted_array( ints , compare , insert_at );
             } else {
                 break;
             }
@@ -221,4 +231,5 @@ int main( ) {
     selection_sort( int_randomizer( ) );
     selection_sort_perf_opt( int_randomizer( ) );
     insertion_sort( int_randomizer( ) );
+    insertion_sort_perf_opt( int_randomizer( ) );
 }
