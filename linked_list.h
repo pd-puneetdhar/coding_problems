@@ -5,6 +5,7 @@ namespace linked_list {
 	class node {
 	public:
 		std::unique_ptr<node> get_next() { return m_next; }
+		T& get_data() { return m_data; }
 	private:
 		T m_data;
 		std::unique_ptr<node> m_next;
@@ -14,5 +15,12 @@ namespace linked_list {
 	class linked_list {
 		T node;
 
+		T* head{ nullptr };
+
+		void add(T& node) {
+			if (head == nullptr) {
+
+			}
+		}
 	};
 }
