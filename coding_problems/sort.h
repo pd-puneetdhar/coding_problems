@@ -10,10 +10,10 @@
 
 namespace sort {
 
-	const unsigned int list_length = 10;
+	const unsigned int list_length = 100;
 	using int_list = std::array<unsigned int, list_length>;
 	using dist_range = std::pair<unsigned int, unsigned int>;
-	dist_range def_range = { 0, 99 };
+	dist_range def_range = { 0, 999 };
 
 	void create_random_list_of_integers(int_list& ints, dist_range range) {
 		unsigned int count = ints.size();
