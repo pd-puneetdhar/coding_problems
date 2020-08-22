@@ -18,15 +18,12 @@
     <ClCompile Include="coding_problems\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="coding_problems\sort.h">
-      <Filter>Header Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sort.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="coding_problems\array_function.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+	<ClInclude Include="coding_problems\sort.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

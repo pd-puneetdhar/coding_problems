@@ -99,11 +99,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="coding_problems\main.cpp" />
-    <ClCompile Include="coding_problems\sort.h" />
-    <ClCompile Include="sort.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="coding_problems\array_function.h" />
+	<ClInclude Include="coding_problems\sort.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
