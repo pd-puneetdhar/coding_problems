@@ -1,4 +1,5 @@
-#include  "array_function.h"
+#include "array_function.h"
+#include "linked_list.h"
 #include "sort.h"
 
 int main() {

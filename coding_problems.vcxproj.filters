@@ -23,7 +23,10 @@
     <ClInclude Include="coding_problems\array_function.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-	<ClInclude Include="coding_problems\sort.h">
+    <ClInclude Include="coding_problems\sort.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="linked_list.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
