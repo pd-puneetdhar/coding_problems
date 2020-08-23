@@ -1,6 +1,6 @@
 #pragma once
 
-#define LOG(x) std::cout << __FUNCTION__ << " :" << x << std::endl;
+#define LOG(x) std::cout << std::hex << __FUNCTION__ << " :" << x << std::dec << std::endl;
 
 namespace linked_list
 {
@@ -61,7 +61,7 @@ namespace linked_list
 
 			while (itr != nullptr)
 			{
-				std::cout << "Data = " << itr->get_data() << std::endl;
+				LOG("Data = " << itr->get_data());
 				itr = itr->get_next();
 			}
 		}
@@ -93,19 +93,46 @@ namespace linked_list
 		void free(T& arg_node)
 		{
 			LOG(":: Free node with data - " << arg_node.get_data());
-			arg_node.free_node();
+			node<D>::free_node(&arg_node);
+		}
+
+		void free(D d) {
+			LOG("Attempting to find node with data d");
+
+			auto itr = head;
+			T* prev = nullptr;
+			while (itr->get_data() != d) {
+				prev = itr;
+				itr = itr->get_next();
+				if (itr == nullptr) {
+					LOG(d << " Not found");
+					return;
+				}
+			}
+
+			std::cout << "found data " << d << " at " << (uintptr_t)&itr << std::endl;
+			prev->set_next(itr->get_next());
+			free(*itr);
 		}
 	};
 
+#define DEF_TEST(x) LOG(x)
 	void test_linked_list()
 	{
-		LOG("TEST NODE CREATION");
-		auto n = node<unsigned int>::create_node(30);
-		LOG("TEST LINKED LIST CREATION");
-		linked_list<node<unsigned int>, unsigned int> ll;
-		ll.add(10);
-		ll.add(20);
-		ll.add(30);
-		ll.print();
+		DEF_TEST("TEST -- NODE Create and Free") {
+			auto n = node<unsigned int>::create_node(30);
+			node<unsigned int>::free_node(n);
+		}
+
+		DEF_TEST("TEST -- LL -- Creation and Free") {
+			linked_list<node<unsigned int>, unsigned int> ll;
+			ll.add(10);
+			ll.add(20);
+			ll.add(30);
+			ll.print();
+			ll.free(50);
+			ll.free(20);
+			LOG("Now the ll will be deleted");
+		}
 	}
 } // namespace linked_list
