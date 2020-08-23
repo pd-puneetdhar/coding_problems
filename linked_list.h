@@ -15,43 +15,46 @@ namespace linked_list
 		}
 
 	public:
-		static node* create_node(D data)
+		static node *create_node(D data)
 		{
 			return new node(data);
 		}
 
-		static void free_node(node* n) {
+		static void free_node(node *n)
+		{
 			delete n;
 			n = nullptr;
 		}
 
-		node* get_next() { return m_next; }
-		D& get_data() { return m_data; }
-		void set_next(node* n) { m_next = n; }
+		node *get_next() { return m_next; }
+		D &get_data() { return m_data; }
+		void set_next(node *n) { m_next = n; }
 
 	private:
 		D m_data;
-		node* m_next = nullptr;
+		node *m_next = nullptr;
 	};
 
 	template <typename T, typename D>
 	class linked_list
 	{
-		T* head{ nullptr };
+		T *head{nullptr};
 
 	public:
-		void print() {
+		void print()
+		{
 
 			auto itr = head;
 
-			while (itr != nullptr) {
+			while (itr != nullptr)
+			{
 				std::cout << "Data = " << itr->get_data() << std::endl;
 				itr = itr->get_next();
 			}
 		}
-		T* end()
+		T *end()
 		{
-			T* itr = head;
+			T *itr = head;
 			while (itr->get_next() != nullptr)
 			{
 				itr = itr->get_next();
@@ -74,7 +77,9 @@ namespace linked_list
 			}
 		}
 
-		void free(T& arg_node) {
+		void free(T &arg_node)
+		{
+			LOG(":: Free node with data - " << arg_node.get_data());
 			arg_node.free_node();
 		}
 	};
