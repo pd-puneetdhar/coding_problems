@@ -54,7 +54,6 @@ std::vector<int> twoSum( std::vector<int>& nums , int target ) {
 	}
 
 	return { -1, -1 };
-#else //USE_SINGLE_PASS HASH MAP
 
 #endif
 

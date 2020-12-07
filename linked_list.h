@@ -50,7 +50,7 @@ namespace linked_list {
 
 	public:
 		T* get_head( ) { return head; }
-
+		void set_head(T* h) { assert(h != nullptr); head = h; }
 		void print( ) {
 			auto itr = head;
 
@@ -127,6 +127,33 @@ namespace linked_list {
 		//ll.free( find_middle_of_linked_list( ll ) );
 	}
 
+	template<typename T, typename D>
+	void reverse(linked_list<T, D>& ll) {
+
+		LOG("");
+		
+		auto curr = ll.get_head();
+
+		node<D>* p = nullptr;
+		node<D>* n = nullptr;
+
+		while (curr != nullptr) {
+
+			//book keep before action
+			n = curr->get_next();
+			
+			//action
+			curr->set_next(p);
+						
+			//prep for next iteration
+			p = curr;
+			curr = n;
+		}
+
+		ll.set_head(p);
+	}
+
+
 #define DEF_TEST(x) LOG(x)
 	void test_linked_list( ) {
 		DEF_TEST( "TEST -- NODE Create and Free" ) {
@@ -151,6 +178,24 @@ namespace linked_list {
 			delete_middle_of_linked_list( ll );
 			ll.print( );
 			LOG( "Now the ll will be deleted" );
+		}
+
+		DEF_TEST("TEST -- LL -- Reverse LL ") {
+			linked_list<node<unsigned int>, unsigned int> ll;
+			ll.add(10);
+			ll.add(20);
+			ll.add(30);
+			ll.print();
+			ll.free(50);
+			ll.free(20);
+			ll.add(40);
+			ll.add(50);
+			ll.add(70);
+			ll.add(-30);
+
+			ll.print();
+			reverse(ll);
+			ll.print();
 		}
 	}
 } // namespace linked_list
